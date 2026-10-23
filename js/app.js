@@ -149,32 +149,43 @@
     clearInterval(state.timerId);
   }
 
-  // ---------- GIFs: pré-carregamento e sorteio sem repetir ----------
+  // ---------- GIFs: sorteio sem repetir + pré-carregamento só dos próximos ----------
+  // (carregar todos de uma vez gastaria muitos dados do celular do visitante)
   const loadedGifs = new Set();
+  const preloading = new Map();
 
-  function preloadGifs() {
-    const all = new Set([
-      ...REACTIONS.correct.gifs,
-      ...REACTIONS.wrong.gifs,
-      ...RESULT_TIERS.flatMap((t) => t.gifs),
-    ]);
-    all.forEach((src) => {
-      if (loadedGifs.has(src)) return;
-      const img = new Image();
-      img.onload = () => loadedGifs.add(src);
-      img.src = src;
-    });
+  function preload(src) {
+    if (!src || loadedGifs.has(src) || preloading.has(src)) return;
+    const img = new Image();
+    img.onload = () => loadedGifs.add(src);
+    img.src = src;
+    preloading.set(src, img);
   }
 
-  /** Próximo GIF de uma lista, passando por todos antes de repetir. */
-  function nextGif(list) {
+  function gifQueue(list) {
     const key = list.join("|");
     let queue = state.gifQueues.get(key);
     if (!queue || !queue.length) {
       queue = shuffle(list);
       state.gifQueues.set(key, queue);
     }
-    return queue.shift();
+    return queue;
+  }
+
+  /** Próximo GIF de uma lista, passando por todos antes de repetir. */
+  const nextGif = (list) => gifQueue(list).shift();
+
+  /** Deixa carregando o próximo GIF de acerto e o de erro. */
+  function preloadUpcoming() {
+    preload(gifQueue(REACTIONS.correct.gifs)[0]);
+    preload(gifQueue(REACTIONS.wrong.gifs)[0]);
+    const next = REACTIONS.streak[state.streak + 1];
+    if (next) preload(next.gif);
+    // perto do fim, adianta o GIF do resultado mais provável
+    if (state.index >= state.questions.length - 2) {
+      const tier = tierFor(state.score, state.questions.length);
+      preload(gifQueue(tier.gifs)[0]);
+    }
   }
 
   /** Monta o meme: emoji na hora, GIF por cima assim que carregar. */
@@ -255,7 +266,6 @@
     el.streak.classList.add("hidden");
     el.progress.setAttribute("aria-valuemax", state.questions.length);
 
-    preloadGifs();
     showScreen("quiz");
     renderQuestion();
   }
@@ -296,6 +306,7 @@
     el.qText.classList.add("pop");
     el.qText.focus({ preventScroll: true });
 
+    preloadUpcoming();
     resumeClock();
   }
 
@@ -327,7 +338,7 @@
       const streak = REACTIONS.streak[state.streak];
       meme = {
         emoji: streak ? "🔥" : pick(REACTIONS.correct.emojis),
-        gif: nextGif(REACTIONS.correct.gifs),
+        gif: streak && streak.gif ? streak.gif : nextGif(REACTIONS.correct.gifs),
         ...(streak ? { top: streak.top, bottom: streak.bottom } : pick(REACTIONS.correct.memes)),
       };
       if (streak) {
@@ -361,6 +372,7 @@
       el.feedbackSource.href = source.url;
     }
     el.reaction.classList.remove("hidden");
+    preloadUpcoming();
 
     const isLast = state.index === state.questions.length - 1;
     el.btnNext.textContent = isLast ? "Ver resultado 🏁" : "Próxima ▶";

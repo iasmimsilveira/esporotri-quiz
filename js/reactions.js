@@ -3,27 +3,19 @@
  *
  * Cada meme tem um texto de cima (top) e um de baixo (bottom), escritos por cima do GIF.
  * O emoji aparece na hora; o GIF entra assim que carregar (todos são pré-carregados
- * no início da partida). Sem internet, fica só o emoji com o meme, e o jogo segue normal.
+ * aos poucos, só os próximos). Sem internet, fica só o emoji com o meme, e o jogo segue normal.
  *
- * Para trocar os GIFs: coloque arquivos leves (até ~500 KB) em img/ e use "img/arquivo.gif",
- * ou cole o link de qualquer GIF (Giphy, Tenor...).
+ * Para trocar ou adicionar GIFs: coloque arquivos leves (até ~500 KB) em img/gifs/
+ * e acrescente o caminho na lista certa abaixo. O jogo sorteia sem repetir até passar por todos.
  */
+const gif = (name) => `img/gifs/${name}.gif`;
+
 const CAT_GIFS = {
-  happy: [
-    "https://cataas.com/cat/FeTFNaYroXqkDYTZ?width=320",
-    "https://cataas.com/cat/JQ7LZczsRvPnDPAe?width=320",
-    "https://cataas.com/cat/Gb4wBVoaXOOrmXMp?width=320",
-  ],
-  judging: [
-    "https://cataas.com/cat/LVxEssLs2D6pQaDy?width=320",
-    "https://cataas.com/cat/60qItVZj8MctIDlg?width=320",
-    "https://cataas.com/cat/bgOtqq1YmQ3fxTeH?width=320",
-  ],
-  sad: [
-    "https://cataas.com/cat/3mEJCz1Oj7l1E2tm?width=320",
-    "https://cataas.com/cat/HByo6o7TssCW9brP?width=320",
-    "https://cataas.com/cat/6QhBxfMg4BuXGetL?width=320",
-  ],
+  happy: ["acerto-dancinha", "acerto-danca-fofa", "acerto-nyan", "acerto-voando", "acerto-fones", "acerto-em-pe", "acerto-dj", "acerto-festa"].map(gif),
+  fail: ["erro-rolando", "erro-pulo", "erro-pulo-2", "erro-nao", "erro-assustados", "erro-congelado", "erro-banho"].map(gif),
+  judging: ["julgando-gato-da-lixa", "julgando-caixa", "julgando-chocado", "julgando-desconfiado"].map(gif),
+  sad: ["triste-dormindo", "triste-sonolento", "erro-rolando", "erro-pulo"].map(gif),
+  epic: ["sequencia-leao", "sequencia-espaco", "acerto-festa"].map(gif),
 };
 
 const REACTIONS = {
@@ -42,11 +34,12 @@ const REACTIONS = {
   },
   wrong: {
     titles: ["Errou! 😿", "Ops, quase! 🙀", "Nãooo! 😾", "Arranhou na trave! 🐾"],
-    gifs: [...CAT_GIFS.judging, ...CAT_GIFS.sad],
+    gifs: [...CAT_GIFS.fail, ...CAT_GIFS.judging],
     emojis: ["😿", "🙀", "😾", "💅"],
     memes: [
       { top: "Errou", bottom: "Mas errou com confiança" },
       { top: "O gato da lixa", bottom: "Tá te julgando 💅" },
+      { top: "Eu lixando a unha", bottom: "Enquanto você erra" },
       { top: "Não foi dessa vez", bottom: "Aceita um sachê de consolo?" },
       { top: "O fungo", bottom: "Agradece a sua ajuda" },
       { top: "Derrubei o copo", bottom: "Igual você derrubou essa" },
@@ -55,9 +48,9 @@ const REACTIONS = {
   },
   // Sequência de acertos seguidos
   streak: {
-    3: { badge: "🔥 3 seguidas!", top: "3 seguidas", bottom: "Gato em chamas 🔥" },
-    5: { badge: "👑 5 seguidas!", top: "5 seguidas", bottom: "Gato lendário 👑" },
-    7: { badge: "🩺 7 seguidas!", top: "7 seguidas", bottom: "Isso é um veterinário disfarçado?" },
+    3: { badge: "🔥 3 seguidas!", top: "3 seguidas", bottom: "Gato em chamas 🔥", gif: gif("sequencia-laser") },
+    5: { badge: "👑 5 seguidas!", top: "5 seguidas", bottom: "Gato lendário 👑", gif: gif("sequencia-espaco") },
+    7: { badge: "🩺 7 seguidas!", top: "7 seguidas", bottom: "Isso é um veterinário disfarçado?", gif: gif("sequencia-leao") },
   },
 };
 
@@ -109,6 +102,6 @@ const RESULT_TIERS = [
     text: "Gabarito completo! Mostre esta tela para os alunos do estande.",
     color: "var(--butter)",
     emoji: "😻",
-    gifs: CAT_GIFS.happy,
+    gifs: CAT_GIFS.epic,
   },
 ];

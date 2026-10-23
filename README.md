@@ -89,7 +89,8 @@ Sem `API_URL`, o ranking fica salvo só no navegador. Isso basta para testar o j
 ## Personalizar
 - **Perguntas:** `js/questions.js`. `answer` é o índice da alternativa certa (0 a 3) e `source` aponta para a fonte em `SOURCES`. Mantenha as alternativas com tamanhos parecidos, para a certa não ser sempre a mais longa.
 - **Quantidade por nível:** `QUESTIONS_PER_LEVEL` em `js/config.js`.
-- **Memes e GIFs:** `js/reactions.js`. Os GIFs atuais (cataas.com) são provisórios e pesados. O ideal é salvar GIFs **leves (até ~500 KB)** numa pasta `img/` e usar `"img/gato-da-lixa.gif"`. Se um GIF não carregar, aparece o emoji com o meme, e o jogo segue normal.
+- **Memes e GIFs:** ficam em `img/gifs/` e são listados em `js/reactions.js` (24 GIFs: 8 de acerto, 7 de erro, 4 "julgando" com o gato da lixa, 3 de sequência e 2 tristes). Para adicionar um, salve um GIF **leve (até ~500 KB)** em `img/gifs/` e coloque o nome na lista certa. O jogo sorteia sem repetir até passar por todos e carrega só os próximos, para economizar os dados do visitante. Se um GIF não carregar, aparece o emoji com o meme, e o jogo segue normal.
+- **Origem dos GIFs:** [cataas.com](https://cataas.com) e o meme do Salem lixando a unha (*Sabrina, Aprendiz de Feiticeira*) do [Tenor](https://tenor.com/view/salem-nail-file-sabrina-the-teenage-witch-gif-8253627), usados aqui com fins educativos.
 - **Palavras bloqueadas:** listas `BLOCKED_PARTS` e `BLOCKED_WORDS`, em `js/ranking.js` **e** em `apps-script/Codigo.gs` (mantenha as duas iguais).
 
 ## Fontes do conteúdo
