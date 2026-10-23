@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Telão · Esporotri-Quiz</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/telao.css" />
+</head>
+<body class="telao">
+  <div class="paws" aria-hidden="true"></div>
+
+  <header class="t-header">
+    <h1>🐱🔬 Esporotri<span>-Quiz</span></h1>
+    <p class="t-tagline">Ranking ao vivo dos Felinos Sabidos 🏆</p>
+    <button id="btn-fullscreen" type="button" class="t-fullscreen">⛶ Tela cheia</button>
+  </header>
+
+  <main class="t-main">
+    <aside class="t-side">
+      <div class="t-qr-card">
+        <p class="t-qr-title">📱 Aponte a câmera e jogue!</p>
+        <div id="qrcode" class="t-qr"></div>
+        <p id="game-url" class="t-url"></p>
+        <p id="url-warning" class="t-warning hidden">⚠️ Este endereço é local e não abre no celular dos visitantes. Publique o jogo (veja o README) ou preencha GAME_URL no js/config.js.</p>
+      </div>
+
+      <div class="t-stats">
+        <div class="t-stat"><strong id="stat-plays">0</strong><span>jogadas</span></div>
+        <div class="t-stat"><strong id="stat-avg">0</strong><span>média de acertos</span></div>
+        <div class="t-stat"><strong id="stat-perfect">0</strong><span>gabaritos 🎓</span></div>
+      </div>
+    </aside>
+
+    <section class="t-board" aria-labelledby="board-title">
+      <h2 id="board-title">🏆 Top <span id="top-size">10</span></h2>
+      <p id="board-empty" class="t-empty">Ninguém jogou ainda... 😿<br />Seja o primeiro a entrar no telão!</p>
+      <ol id="board" class="t-list"></ol>
+    </section>
+  </main>
+
+  <footer class="t-footer">
+    <div class="t-ticker"><span class="t-ticker-label">Últimas jogadas</span><div id="recent" class="t-recent"></div></div>
+    <p class="t-status"><span id="credits"></span> · <span id="status">Conectando…</span></p>
+  </footer>
+
+  <div id="toast" class="t-toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/ranking.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/qr.js"></script>
+  <script src="js/telao.js"></script>
+</body>
+</html>

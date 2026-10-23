@@ -1,0 +1,169 @@
+/* =========================================================
+   Telão do estande — feito para TV/notebook na horizontal
+   ========================================================= */
+
+body.telao {
+  height: 100vh;
+  overflow: hidden;
+  font-size: clamp(14px, 1.25vw, 26px);
+  padding: 2vh 2.5vw;
+  gap: 2vh;
+}
+
+.t-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5vw;
+}
+.t-header h1 { font-size: 3.2em; }
+.t-tagline { font-family: "Baloo 2", sans-serif; font-size: 1.6em; font-weight: 700; color: var(--muted); }
+.t-fullscreen {
+  margin-left: auto;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.8em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0.6;
+}
+:fullscreen .t-fullscreen { opacity: 0.15; }
+
+.t-main {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  gap: 2.5vw;
+}
+
+/* ---------- Coluna do QR ---------- */
+.t-side { display: grid; grid-template-rows: auto 1fr; gap: 2vh; min-height: 0; }
+.t-qr-card {
+  background: var(--card);
+  border: 3px dashed var(--lavender);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.5vh 1.5vw;
+  text-align: center;
+  display: grid;
+  justify-items: center;
+  gap: 1.2vh;
+}
+.t-qr-title { font-family: "Baloo 2", sans-serif; font-size: 1.7em; font-weight: 800; color: var(--primary); }
+.t-qr { background: #fff; padding: 14px; border-radius: 16px; line-height: 0; }
+.t-qr img, .t-qr canvas { width: min(26vh, 18vw) !important; height: auto !important; display: block; }
+.t-url { font-weight: 800; font-size: 1.05em; word-break: break-all; }
+.t-warning { color: var(--rose-strong); font-weight: 700; font-size: 0.85em; }
+
+.t-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1vw; align-content: start; }
+.t-stat {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  padding: 1.6vh 0.6vw;
+  text-align: center;
+  display: grid;
+  gap: 2px;
+}
+.t-stat strong { font-family: "Baloo 2", sans-serif; font-size: 2.4em; line-height: 1; color: var(--primary); }
+.t-stat span { font-size: 0.8em; color: var(--muted); font-weight: 700; }
+
+/* ---------- Ranking ---------- */
+.t-board {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2vh 2vw;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.t-board h2 { font-size: 2em; color: var(--primary); margin-bottom: 1vh; }
+.t-empty { margin: auto; text-align: center; font-size: 1.6em; color: var(--muted); font-weight: 700; }
+.t-list { list-style: none; display: grid; grid-auto-rows: 1fr; gap: 0.8vh; flex: 1; min-height: 0; }
+.t-row {
+  display: grid;
+  grid-template-columns: 4.5vw 1fr 7vw 9vw;
+  align-items: center;
+  gap: 1vw;
+  padding: 0 1.2vw;
+  border-radius: 16px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  font-size: 1.35em;
+  min-height: 0;
+}
+.t-row.top-1 { background: var(--row-gold); font-size: 1.6em; }
+.t-row.top-2 { background: var(--row-silver); font-size: 1.5em; }
+.t-row.top-3 { background: var(--row-bronze); font-size: 1.45em; }
+.t-row.is-new { animation: rowIn 1.2s ease; border-color: var(--primary); }
+@keyframes rowIn {
+  0% { transform: translateX(-30px) scale(0.95); opacity: 0; }
+  40% { transform: scale(1.04); opacity: 1; }
+  100% { transform: none; }
+}
+.t-pos { font-family: "Baloo 2", sans-serif; font-weight: 800; text-align: center; }
+.t-name { font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.t-score { font-family: "Baloo 2", sans-serif; font-weight: 800; color: var(--primary); }
+.t-time { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 0.8em; text-align: right; }
+
+/* ---------- Rodapé ---------- */
+.t-footer { position: relative; z-index: 1; display: grid; gap: 0.8vh; }
+.t-ticker { display: flex; align-items: center; gap: 1vw; overflow: hidden; }
+.t-ticker-label { font-weight: 800; color: var(--muted); white-space: nowrap; }
+.t-recent { display: flex; gap: 0.6vw; overflow: hidden; }
+.t-chip {
+  background: var(--lavender-soft);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.t-status { font-size: 0.75em; color: var(--muted); }
+.t-status .is-error { color: var(--rose-strong); font-weight: 700; }
+
+/* ---------- Aviso de nova jogada / novo líder ---------- */
+.t-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 12vh;
+  z-index: 60;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  font-family: "Baloo 2", sans-serif;
+  font-weight: 800;
+  font-size: 1.6em;
+  padding: 1.2vh 2.5vw;
+  border-radius: 999px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  animation: toastIn 0.5s cubic-bezier(0.2, 1.4, 0.4, 1);
+  white-space: nowrap;
+}
+.t-toast.is-big { font-size: 2.6em; top: 40%; bottom: auto; }
+@keyframes toastIn {
+  from { transform: translate(-50%, 30px) scale(0.8); opacity: 0; }
+  to { transform: translateX(-50%); opacity: 1; }
+}
+
+/* Em telas em pé (celular/tablet), empilha */
+@media (max-aspect-ratio: 1/1) {
+  body.telao { height: auto; overflow: auto; font-size: 15px; padding: 16px; }
+  .t-header { flex-wrap: wrap; }
+  .t-header h1 { font-size: 2.2em; }
+  .t-main { grid-template-columns: 1fr; }
+  .t-qr img, .t-qr canvas { width: 200px !important; }
+  .t-list { grid-auto-rows: auto; }
+  .t-row { padding: 10px 12px; grid-template-columns: 2.6em 1fr auto; }
+  .t-time { display: none; }
+  .t-toast { white-space: normal; text-align: center; width: calc(100% - 32px); }
+}

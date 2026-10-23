@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esporotri-Quiz 🐾</title>
+  <meta name="description" content="Quiz interativo sobre esporotricose: o fungo, contágio, sintomas e cuidados com os gatos." />
+  <meta name="theme-color" content="#8e6fd8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐱</text></svg>" />
+
+  <!-- Fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Patinhas decorativas de fundo -->
+  <div class="paws" aria-hidden="true"></div>
+
+  <main class="app">
+
+    <!-- ============ TELA 1: INÍCIO ============ -->
+    <section id="screen-home" class="screen active" aria-labelledby="home-title">
+      <div class="card">
+        <div class="logo" aria-hidden="true">🐱🔬</div>
+        <h1 id="home-title" tabindex="-1">Esporotri<span>-Quiz</span></h1>
+        <p class="subtitle">Você sabe tudo sobre a <strong>esporotricose</strong>, o fungo que afeta gatos e humanos? Responda 10 perguntas e entre no <strong>ranking ao vivo</strong> do estande! 🏆</p>
+
+        <ul class="how">
+          <li>🎲 Perguntas sorteadas a cada partida</li>
+          <li>😼 O gato reage a cada resposta</li>
+          <li>⏱️ Empatou? Ganha quem foi mais rápido</li>
+        </ul>
+
+        <form id="login-form" class="login-form" autocomplete="off" novalidate>
+          <label for="player-name">Seu nome ou apelido</label>
+          <input id="player-name" type="text" maxlength="16" placeholder="Ex.: Mia Miau" required aria-describedby="name-hint name-error" />
+          <p id="name-hint" class="hint">Vai aparecer no telão. Use um apelido só seu 😉</p>
+          <p id="name-error" class="error" role="alert"></p>
+          <button type="submit" class="btn btn-primary">Começar quiz ▶</button>
+        </form>
+
+        <button type="button" class="btn btn-ghost" data-go="ranking">🏆 Ver ranking</button>
+      </div>
+    </section>
+
+    <!-- ============ TELA 2: PERGUNTAS ============ -->
+    <section id="screen-quiz" class="screen" aria-labelledby="question-text">
+      <div class="card">
+        <header class="quiz-header">
+          <div class="player">👤 <span id="quiz-player"></span></div>
+          <div class="header-right">
+            <span id="streak" class="streak hidden" aria-live="polite"></span>
+            <div class="timer" title="Tempo (pausa enquanto você lê a explicação)">⏱️ <span id="timer">0:00</span></div>
+            <button type="button" class="btn-icon js-mute" aria-pressed="false" aria-label="Desligar som">🔊</button>
+          </div>
+        </header>
+
+        <div class="progress" role="progressbar" aria-label="Progresso do quiz" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+
+        <div class="question-meta">
+          <span id="question-count">Pergunta 1 de 10</span>
+          <span class="score-live">✅ <span id="score-live">0</span></span>
+        </div>
+
+        <h2 id="question-text" class="question-text" tabindex="-1"></h2>
+
+        <div id="options" class="options"></div>
+
+        <!-- Reação do gato + explicação -->
+        <div id="reaction" class="reaction hidden" role="status" aria-live="polite">
+          <div class="meme">
+            <div class="meme-emoji" aria-hidden="true"></div>
+            <img class="meme-gif hidden" alt="" />
+            <span class="meme-top"></span>
+            <span class="meme-bottom"></span>
+          </div>
+          <div class="feedback">
+            <p class="feedback-title"></p>
+            <p class="feedback-answer"></p>
+            <p class="feedback-text"></p>
+            <a class="feedback-source" target="_blank" rel="noopener"></a>
+          </div>
+        </div>
+
+        <button id="btn-next" type="button" class="btn btn-primary hidden">Próxima ▶</button>
+        <p class="kbd-hint">Dica: no computador, use as teclas 1–4 e Enter.</p>
+      </div>
+    </section>
+
+    <!-- ============ TELA 3: RESULTADO ============ -->
+    <section id="screen-result" class="screen" aria-labelledby="result-hello">
+      <div class="card result-card">
+        <p id="result-hello" class="result-hello" tabindex="-1">Fim de jogo, <strong id="result-player"></strong>!</p>
+
+        <div class="score-circle">
+          <span id="result-score">0</span><small>/<span id="result-total">10</span></small>
+        </div>
+        <p class="result-time">⏱️ Tempo: <strong id="result-time">0:00</strong> · 🔥 Melhor sequência: <strong id="result-streak">0</strong></p>
+
+        <p id="result-position" class="result-position">Enviando para o ranking… 🐾</p>
+
+        <div id="result-tier" class="tier">
+          <span id="tier-label" class="tier-label"></span>
+          <h2 id="tier-title"></h2>
+        </div>
+
+        <div id="result-meme" class="meme meme-big">
+          <div class="meme-emoji" aria-hidden="true"></div>
+          <img class="meme-gif hidden" alt="" />
+          <span class="meme-top"></span>
+          <span class="meme-bottom"></span>
+        </div>
+        <p id="tier-text" class="tier-text"></p>
+
+        <p class="show-stand">📣 Mostre esta tela para os alunos do estande!</p>
+
+        <details id="review" class="review">
+          <summary>📚 Ver o que você errou</summary>
+          <ol id="review-list"></ol>
+        </details>
+
+        <div class="result-actions">
+          <button id="btn-retry" type="button" class="btn btn-primary">🔁 Jogar de novo</button>
+          <button type="button" class="btn btn-secondary" data-go="ranking">🏆 Ranking</button>
+          <button type="button" class="btn btn-ghost" data-go="home">🏠 Início</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TELA 4: RANKING ============ -->
+    <section id="screen-ranking" class="screen" aria-labelledby="ranking-title">
+      <div class="card">
+        <h2 id="ranking-title" class="ranking-title" tabindex="-1">🏆 Ranking dos Felinos Sabidos</h2>
+        <p class="subtitle small">Mais acertos primeiro. Empate? Ganha quem foi mais rápido. Vale o melhor resultado de cada nome.</p>
+
+        <p id="ranking-status" class="empty" role="status"></p>
+        <ol id="ranking-list" class="ranking-list"></ol>
+
+        <div class="result-actions">
+          <button type="button" class="btn btn-primary" data-go="home">🏠 Início</button>
+          <button id="btn-refresh" type="button" class="btn btn-ghost">🔄 Atualizar</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p id="credits"></p>
+    <p>Projeto educativo 🐾 Em caso de suspeita, procure um veterinário (para o animal) ou uma unidade de saúde (para pessoas).</p>
+  </footer>
+
+  <!-- Scripts da aplicação -->
+  <script src="js/config.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/reactions.js"></script>
+  <script src="js/ranking.js"></script>
+  <script src="js/fx.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

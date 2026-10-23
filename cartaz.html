@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartaz · Esporotri-Quiz</title>
+  <meta name="robots" content="noindex" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Cartaz A4 em pé, sempre em cores claras (para imprimir) */
+    @page { size: A4 portrait; margin: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Nunito", system-ui, sans-serif;
+      background: #e9e4f3;
+      color: #3d3557;
+      display: grid;
+      justify-items: center;
+      gap: 16px;
+      padding: 24px 16px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .toolbar button {
+      font: inherit; font-weight: 700; padding: 10px 18px; border-radius: 12px; border: none;
+      background: #7c5cd0; color: #fff; cursor: pointer;
+    }
+    .toolbar p { width: 100%; text-align: center; font-size: 0.9rem; }
+    .warning { color: #b03030; font-weight: 700; }
+    .poster {
+      width: 210mm;
+      height: 297mm;
+      max-width: 100%;
+      background: #fdf7ff;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(205, 180, 246, 0.55), transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(181, 234, 215, 0.6), transparent 40%),
+        radial-gradient(circle at 90% 8%, rgba(255, 214, 165, 0.5), transparent 35%);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+      padding: 18mm 16mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 7mm;
+    }
+    .emoji { font-size: 60pt; line-height: 1; }
+    h1 { font-family: "Baloo 2", sans-serif; font-size: 54pt; line-height: 1; color: #7c5cd0; }
+    h1 span { color: #3f9e7a; }
+    .lead { font-size: 19pt; font-weight: 700; max-width: 160mm; line-height: 1.3; }
+    .qr-wrap {
+      background: #fff; border: 4px dashed #cdb4f6; border-radius: 10mm; padding: 8mm;
+      display: grid; justify-items: center; gap: 4mm;
+    }
+    #qrcode { line-height: 0; }
+    #qrcode img, #qrcode canvas { width: 95mm !important; height: 95mm !important; display: block; }
+    .scan { font-family: "Baloo 2", sans-serif; font-size: 24pt; font-weight: 800; color: #7c5cd0; }
+    .url { font-size: 11pt; font-weight: 700; word-break: break-all; color: #6e6589; }
+    .perks { list-style: none; display: flex; gap: 5mm; font-size: 14pt; font-weight: 700; flex-wrap: wrap; justify-content: center; }
+    .perks li { background: #efe6ff; border-radius: 99px; padding: 2mm 5mm; }
+    .credits { margin-top: auto; font-size: 12pt; font-weight: 700; color: #6e6589; }
+    @media print {
+      body { background: none; padding: 0; }
+      .toolbar { display: none; }
+      .poster { box-shadow: none; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">🖨️ Imprimir cartaz</button>
+    <p>Na janela de impressão, escolha A4, margens “Nenhuma” e ative “Gráficos de fundo”.</p>
+    <p id="url-warning" class="warning" hidden>⚠️ Este endereço é local e não abre no celular dos visitantes. Abra este cartaz pelo endereço publicado (GitHub Pages) ou preencha GAME_URL no js/config.js.</p>
+  </div>
+
+  <article class="poster">
+    <div class="emoji" aria-hidden="true">🐱🔬</div>
+    <h1>Esporotri<span>-Quiz</span></h1>
+    <p class="lead">Você sabe se proteger da esporotricose, o fungo que afeta gatos e pessoas?</p>
+
+    <div class="qr-wrap">
+      <div id="qrcode"></div>
+      <p class="scan">📱 Aponte a câmera e jogue!</p>
+      <p id="url" class="url"></p>
+    </div>
+
+    <ul class="perks">
+      <li>🎲 10 perguntas</li>
+      <li>😹 Memes de gato</li>
+      <li>🏆 Ranking ao vivo no telão</li>
+    </ul>
+
+    <p id="credits" class="credits"></p>
+  </article>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/qr.js"></script>
+  <script>
+    const url = GameQR.render(document.getElementById("qrcode"), 600);
+    document.getElementById("url").textContent = url.replace(/^https?:\/\//, "");
+    document.getElementById("url-warning").hidden = !GameQR.isLocalUrl(url);
+    document.getElementById("credits").textContent = CONFIG.CREDITS;
+  </script>
+</body>
+</html>
