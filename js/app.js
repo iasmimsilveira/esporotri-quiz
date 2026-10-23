@@ -7,6 +7,8 @@
 
   // ---------- Constantes ----------
   const NAME_KEY = "esporotriquiz_nome";
+  // Modo teste (endereço com ?teste): joga normal, mas não envia nada para o ranking
+  const TEST_MODE = new URLSearchParams(window.location.search).has("teste");
   const LETTERS = ["A", "B", "C", "D"];
   const LEVELS = ["easy", "medium", "hard"];
 
@@ -437,6 +439,10 @@
   async function sendScore(entry) {
     el.resultPosition.textContent = "Enviando para o ranking… 🐾";
     el.resultPosition.className = "result-position";
+    if (TEST_MODE) {
+      el.resultPosition.textContent = "🧪 Modo teste: este resultado não foi para o ranking.";
+      return;
+    }
     const { position, offline, rejected } = await Ranking.submit(entry);
     if (rejected) {
       el.resultPosition.textContent = "😾 O ranking não aceitou este resultado. Chame um aluno do estande!";
@@ -544,6 +550,7 @@
 
   // ---------- Inicialização ----------
   $("#credits").textContent = CONFIG.CREDITS;
+  $("#test-banner").classList.toggle("hidden", !TEST_MODE);
   syncMuteButtons();
   renderPaws();
   Ranking.flushPending();

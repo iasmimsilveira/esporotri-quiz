@@ -69,6 +69,9 @@ Abra `https://SEU-USUARIO.github.io/esporotri-quiz/cartaz.html` e clique em **Im
 - **Zerar o ranking** (ex.: novo dia): apague todas as linhas abaixo do cabeçalho.
 - No fim, a planilha tem todas as jogadas, prontas para apresentar números ("120 pessoas jogaram, média de 6,8").
 
+### Modo teste (treinar sem marcar ponto)
+Abra `https://SEU-USUARIO.github.io/esporotri-quiz/?teste`. O jogo funciona igual, com uma faixa amarela "🧪 Modo teste" no topo, mas **nenhuma jogada vai para o ranking**. Serve para o grupo treinar e mostrar o jogo antes da feira. O QR Code do cartaz e do telão continua apontando para o endereço normal.
+
 ### Checklist antes da feira
 - [ ] Testar o QR Code impresso num **iPhone** e num **Android**, usando os **dados móveis** (a internet da feira pode ser fraca).
 - [ ] Jogar uma partida e ver o nome aparecer no telão.
